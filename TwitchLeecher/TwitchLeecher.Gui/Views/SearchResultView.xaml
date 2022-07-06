@@ -75,7 +75,7 @@
                                 </Grid>
 
                                 <Button Grid.Column="1" IsEnabled="{Binding Live, Converter={StaticResource InverseBoolConverter}}" Padding="8" Width="40" Height="{Binding ActualHeight, ElementName=txtGrid, Mode=OneWay}" Command="{Binding Path=DataContext.DownloadCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding Id}">
-                                    <fa:ImageAwesome Icon="Download" RenderTransformOrigin="0.5,0.5" />
+                                    <fa:ImageAwesome x:Name="DownloadButton" Icon="Download" RenderTransformOrigin="0.5,0.5"/>
                                 </Button>
                             </Grid>
                             <Grid Cursor="Hand">
@@ -126,6 +126,13 @@
                             </Grid>
                         </DockPanel>
                     </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path='IsDownloaded'}" Value="True">
+                            <DataTrigger.Setters>
+                                <Setter TargetName="DownloadButton" Property="Icon" Value="Repeat"/>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
