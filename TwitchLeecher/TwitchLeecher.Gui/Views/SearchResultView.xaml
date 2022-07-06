@@ -68,16 +68,14 @@
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="*" />
-                                        <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
 
                                     <TextBlock Grid.Row="0" Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
                                     <TextBlock Grid.Row="1" Margin="0,3,0,0" Opacity=".75" FontSize="12" Text="{Binding RecordedDate, StringFormat='D'}" />
-                                    <TextBlock Grid.Row="2" Margin="0,3,0,0" Opacity=".75" FontSize="12" Text="{Binding IsDownloaded}" />
                                 </Grid>
 
                                 <Button Grid.Column="1" IsEnabled="{Binding Live, Converter={StaticResource InverseBoolConverter}}" Padding="8" Width="40" Height="{Binding ActualHeight, ElementName=txtGrid, Mode=OneWay}" Command="{Binding Path=DataContext.DownloadCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding Id}">
-                                    <fa:ImageAwesome Icon="Download" RenderTransformOrigin="0.5,0.5" />
+                                    <fa:ImageAwesome x:Name="DownloadButton" Icon="Download" RenderTransformOrigin="0.5,0.5"/>
                                 </Button>
                             </Grid>
                             <Grid Cursor="Hand">
@@ -117,6 +115,9 @@
                                         <TextBlock Text="{Binding Views}" FontSize="12" Margin="4,0,0,0" VerticalAlignment="Center" />
                                     </StackPanel>
                                 </Border>
+                                <Border Background="#78000000" HorizontalAlignment="Center" VerticalAlignment="Bottom" CornerRadius="3" Margin="3,0,0,3" Padding="5,0,5,1">
+                                    <TextBlock Visibility="{Binding IsDownloaded, Converter={StaticResource BVConverter}}" FontSize="12" VerticalAlignment="Center" Text="Downloaded" />
+                                </Border>
                                 <Border Background="#78000000" HorizontalAlignment="Right" VerticalAlignment="Bottom" CornerRadius="3" Margin="0,0,3,3" Padding="5,0,5,1">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{Binding LengthStr}" FontSize="12" VerticalAlignment="Center" />
@@ -125,6 +126,13 @@
                             </Grid>
                         </DockPanel>
                     </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path='IsDownloaded'}" Value="True">
+                            <DataTrigger.Setters>
+                                <Setter TargetName="DownloadButton" Property="Icon" Value="Repeat"/>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
